@@ -1,6 +1,7 @@
 package Giulio_Marra.dao;
 
 import Giulio_Marra.entities.Evento;
+import Giulio_Marra.enums.Genere;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
@@ -29,6 +30,18 @@ public class EventoDAO {
     public List<Evento> getConcertiInStreaming(boolean valore) {
         TypedQuery<Evento> query = em.createQuery("SELECT e FROM Evento e JOIN Concerto c ON e.id = c.id WHERE c.in_streaming = :valore", Evento.class);
         query.setParameter("valore", valore);
+        return query.getResultList();
+    }
+
+    public List<Evento> getConcertiPerGenere(Genere genere) {
+        TypedQuery<Evento> query = em.createQuery("SELECT e FROM Evento e JOIN Concerto c on e.id = c.id WHERE c.genere = :genere", Evento.class);
+        query.setParameter("genere", genere);
+        return query.getResultList();
+    }
+
+    public List<Evento> getPartiteVinteInCasa(String squadra) {
+        TypedQuery<Evento> query = em.createNamedQuery("getPartiteVinteInCasa", Evento.class);
+        query.setParameter("squadra", squadra);
         return query.getResultList();
     }
 

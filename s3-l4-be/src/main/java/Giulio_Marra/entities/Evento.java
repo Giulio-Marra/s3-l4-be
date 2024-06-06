@@ -10,6 +10,10 @@ import java.util.List;
 @Entity
 @Table(name = "eventi")
 @Inheritance(strategy = InheritanceType.JOINED)
+@NamedQuery(
+        name = "getPartiteVinteInCasa",
+        query = "SELECT e FROM Evento e JOIN PartitaDiCalcio p ON e.id = p.id WHERE p.squadra_vincente = :squadra AND p.squadra_di_casa = :squadra"
+)
 public abstract class Evento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
