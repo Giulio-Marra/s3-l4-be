@@ -9,24 +9,25 @@ import java.util.List;
 
 @Entity
 @Table(name = "eventi")
-public class Evento {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Evento {
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected long id;
 
 
-    private String titoloEvento;
-    private LocalDate dataEevento;
-    private String descrizioneEvento;
+    protected String titoloEvento;
+    protected LocalDate dataEevento;
+    protected String descrizioneEvento;
     @Enumerated(EnumType.STRING)
-    private TipoEvento tipoevento;
+    protected TipoEvento tipoevento;
 
     @OneToMany(mappedBy = "evento")
-    private List<Partecipazione> partecipazioni;
+    protected List<Partecipazione> partecipazioni;
 
     @ManyToOne
     @JoinColumn(name = "location_id")
-    private Location location;
+    protected Location location;
 
     public Evento() {
 
@@ -91,15 +92,4 @@ public class Evento {
         this.location = location;
     }
 
-    @Override
-    public String toString() {
-        return "Evento{" +
-                "id=" + id +
-                ", titoloEvento='" + titoloEvento + '\'' +
-                ", dataEevento=" + dataEevento +
-                ", descrizioneEvento='" + descrizioneEvento + '\'' +
-                ", tipoevento=" + tipoevento +
-                ", location=" + location +
-                '}';
-    }
 }
